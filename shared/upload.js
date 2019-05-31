@@ -9,7 +9,6 @@ const dir = './uploads';
 
 const limits = { fileSize: 1024 * 1024, files: 1 };
 
-// TODO: set valid mime types
 const mimeTypes = [
   'image/jpeg',
   'image/pjpeg',

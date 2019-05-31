@@ -1,11 +1,5 @@
-const CreateOneValidator = require('./createOne');
-const ReadOneValidator = require('./readOne');
-const UpdateOneValidator = require('./updateOne');
-const DeleteOneValidator = require('./deleteOne');
+const RegisterValidator = require('./register');
 
 module.exports = {
-  CreateOneValidator,
-  ReadOneValidator,
-  UpdateOneValidator,
-  DeleteOneValidator
+  RegisterValidator
 };

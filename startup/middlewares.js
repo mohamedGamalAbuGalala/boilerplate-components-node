@@ -7,7 +7,6 @@ const cors = require('cors');
 const loggerMiddleware = require('../middlewares/loggerMiddleware');
 
 module.exports = app => {
-  // ! TODO: make sure if this will not return a 404 error
   app.use(logger('dev'));
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
