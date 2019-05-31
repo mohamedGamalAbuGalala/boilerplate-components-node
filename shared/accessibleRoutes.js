@@ -25,5 +25,25 @@ module.exports = [
     url: '/api/example',
     method: DELETE,
     permissions: [PermissionConstants.ADMIN]
+  },
+  {
+    url: '/api/user',
+    method: GET,
+    permissions: [PermissionConstants.ADMIN]
+  },
+  {
+    url: '/api/user',
+    method: POST,
+    permissions: [PermissionConstants.ADMIN]
+  },
+  {
+    url: '/api/user',
+    method: PUT,
+    permissions: [PermissionConstants.ADMIN]
+  },
+  {
+    url: '/api/user',
+    method: DELETE,
+    permissions: [PermissionConstants.ADMIN]
   }
 ];

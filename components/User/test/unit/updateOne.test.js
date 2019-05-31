@@ -4,7 +4,7 @@ const { ObjectId } = require('mongoose').Types;
 
 const { UpdateOneValidator } = require('../../validations');
 
-describe('Unit Example/ UpdateOne', () => {
+describe('Unit User/ UpdateOne', () => {
   /**
    *
    * * Unit
@@ -20,7 +20,7 @@ describe('Unit Example/ UpdateOne', () => {
   beforeEach(() => {
     req.params = { id: new ObjectId() };
     req.body = {
-      name: 'what an example'
+      name: 'what an user'
     };
   });
 
