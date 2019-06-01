@@ -1,10 +1,10 @@
 /* eslint-disable no-undef */
 const expect = require('chai').expect;
-const { ObjectId } = require('mongoose').Types;
 
-const { UpdateOneValidator } = require('../../validations');
+const { CreateOneValidator } = require('../../validations');
 
-describe('Unit Example/ UpdateOne', () => {
+// TODO: should be implemented
+describe('Unit User/ CreateOne', () => {
   /**
    *
    * * Unit
@@ -17,30 +17,30 @@ describe('Unit Example/ UpdateOne', () => {
    */
 
   const req = { body: null };
+
   beforeEach(() => {
-    req.params = { id: new ObjectId() };
     req.body = {
-      name: 'what an example'
+      name: 'what an user'
     };
   });
 
   it('should return {error: "This field is required"} if no name is passed', () => {
     req.body.name = '';
-    const { error } = UpdateOneValidator(req);
+    const { error } = CreateOneValidator(req);
     expect(error.name).to.not.be.undefined;
     expect(error.name[0]).to.equal('name is required');
   });
 
   it("should return {error: 'name_must_be_between 2 ~ 200'} if passing name ar less than 2", () => {
     req.body.name = 'd';
-    const { error } = UpdateOneValidator(req);
+    const { error } = CreateOneValidator(req);
     expect(error.name).to.not.be.undefined;
     expect(error.name[0]).to.equal('name must be at least 2 characters');
   });
 
   it("should return {error: 'name_must_be_between 2 ~ 200'} if passing name ar more than 200", () => {
     req.body.name = 'd'.repeat(201);
-    const { error } = UpdateOneValidator(req);
+    const { error } = CreateOneValidator(req);
     expect(error.name).to.not.be.undefined;
     expect(error.name[0]).to.equal('name must be at max 200 characters');
   });

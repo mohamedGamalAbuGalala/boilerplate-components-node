@@ -13,9 +13,8 @@ const mimeTypes = ['image/png', 'image/jpeg', 'image/jpg'];
 
 const storage = multer.diskStorage({
   destination(req, file, cb) {
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir);
-    }
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir);
+
     cb(null, './uploadedImages/');
   },
   filename(req, file, cb) {

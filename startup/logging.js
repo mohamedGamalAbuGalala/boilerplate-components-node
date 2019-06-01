@@ -85,7 +85,7 @@ const handleException = (err, errType) => {
       err.message
     },\nError Stack: ${err.stack}`
   );
-  // TODO:
+  // TODO: check when to exit
   // process.exit();
 };
 

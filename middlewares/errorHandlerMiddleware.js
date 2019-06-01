@@ -1,6 +1,4 @@
 /* eslint-disable no-param-reassign */
-// TODO: review
-
 const createError = require('http-errors');
 
 const { logger } = require('../startup/logging');
@@ -28,27 +26,16 @@ module.exports.handleUnexpectedErrors = (err, req, res, next) => {
   if (err.code < 100 || err.code >= 600) error.code = 500;
 
   if (process.env.NODE_ENV === 'development')
-    logger.error(
-      JSON.stringify(
-        err,
-        [
-          'messageKey',
-          'message',
-          'stack',
-          'url',
-          'name',
-          'code',
-          'Symbol(message)'
-        ],
-        3
-      )
-    );
+    logger.error(JSON.stringify(err, undefined, 3));
 
   if (!(error.code >= 100 && error.code < 600)) error.code = 500;
 
-  return res
-    .status(error.code)
-    .json({
-      error: { message: err.message } || { message: 'Internal server error...' }
-    });
+  return res.status(error.code).json({
+    error: {
+      ...err,
+      message: `${err.message || ''}.${err._message || ''}`
+    } || {
+      message: 'Internal server error...'
+    }
+  });
 };
