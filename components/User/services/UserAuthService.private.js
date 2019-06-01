@@ -1,7 +1,5 @@
-const jsonwebtoken = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 const config = require('config');
-
-const jwt = Promise.promisifyAll(jsonwebtoken);
 
 const UserModel = require('../models/UserModel');
 
@@ -37,10 +35,5 @@ module.exports = {
       },
       config.get('jwtPrivateKey')
     );
-  },
-
-  verifyToken(token) {
-    const decoded = jwt.verify(token, config.get('jwtPrivateKey'));
-    return decoded;
   }
 };

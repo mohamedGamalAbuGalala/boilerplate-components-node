@@ -45,6 +45,7 @@ const userSchema = new Schema(
     },
     email: String,
     password: String,
+    status: {},
     isArchived: {
       type: Boolean,
       default: false

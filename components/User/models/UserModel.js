@@ -19,6 +19,15 @@ class UserModel {
   static validatePassword(candidatePassword, currentPassword) {
     return bcrypt.compareSync(candidatePassword, currentPassword);
   }
+
+  static updateOneQuery(query, body) {
+    return DbModel.findOneAndUpdate(query, body, {
+      new: true,
+      runValidators: true
+    })
+      .select('-isArchived -updatedAt -createdAt -__v')
+      .lean();
+  }
 }
 
 module.exports = UserModel;

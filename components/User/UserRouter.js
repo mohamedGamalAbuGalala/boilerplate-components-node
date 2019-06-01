@@ -1,9 +1,14 @@
 const express = require('express');
+const authenticateMiddleware = require('../../middlewares/authenticateMiddleware');
 
 const router = express.Router();
 
 const controller = require('./UserController');
-const { RegisterValidator, LoginValidator } = require('./validations');
+const {
+  RegisterValidator,
+  LoginValidator,
+  updateStatusValidator
+} = require('./validations');
 
 const validate = require('../../middlewares/validateMiddleware');
 
@@ -19,5 +24,13 @@ router.post(
 // @route   POST api/user/login
 // !access anonymous
 router.post('/login', validate(LoginValidator), controller.login);
+
+// @route   POST api/user/change-status
+// !access authenticated
+router.post(
+  '/change-status',
+  [validate(updateStatusValidator), authenticateMiddleware],
+  controller.updateStatus
+);
 
 module.exports = router;
