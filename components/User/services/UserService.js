@@ -1,48 +1,51 @@
 const UserModel = require('../models/UserModel');
 const { ErrorsConstants } = require('../../../shared/constants');
-const { permittedParams } = require('../../../shared/bodyPicker');
+const privateMethods = require('./userService.private');
 
 const {
   INTERNAL_SERVER_ERROR,
-  // NOT_FOUND_ERROR,
+  BAD_REQUEST,
+  NOT_FOUND_ERROR,
   DUPLICATE_DATA
 } = ErrorsConstants;
 
-const privateMethods = {
-  async isValidRegister(body) {
-    const promises = {
-      email: UserModel.getOneQuery({ email: body.email }, true),
-      phoneNumber: UserModel.getOneQuery(
-        { phoneNumber: body.phoneNumber },
-        true
-      )
-    };
-    const { email, phoneNumber } = await Promise.props(promises);
-    const error = {};
-    if (email) error.email = ['taken'];
-    if (phoneNumber) error.phoneNumber = ['taken'];
-    return error;
-  }
-};
-
 class UserService {
-  static async register(body) {
-    const safeBody = permittedParams(body, [
-      'firstName',
-      'lastName',
-      'countryCode',
-      'phoneNumber',
-      'gender',
-      'birthDate',
-      'avatar',
-      'email'
-    ]);
+  static async register(safeBody) {
     try {
       const isUnique = await privateMethods.isValidRegister(safeBody);
       if (Object.keys(isUnique).length)
         return { error: { ...DUPLICATE_DATA, ...isUnique } };
       const data = await UserModel.addOne(safeBody);
       return { data: data.toObject() };
+    } catch (ex) {
+      if (ex.code === 11000) return { error: { ...ex, ...DUPLICATE_DATA } };
+      return {
+        error: { ...ex, ...INTERNAL_SERVER_ERROR }
+      };
+    }
+  }
+
+  static async login(safeBody) {
+    try {
+      const {
+        data: user,
+        error: notValidPhoneError
+      } = await privateMethods.validatePhoneNumber(safeBody.phoneNumber);
+      if (notValidPhoneError)
+        return { error: { ...NOT_FOUND_ERROR, ...notValidPhoneError } };
+
+      // validate current user password
+      const validPassword = UserModel.validatePassword(
+        safeBody.password,
+        user.password
+      );
+      if (!validPassword)
+        return { error: { ...BAD_REQUEST, password: ['incorrect_password'] } };
+      return {
+        data: privateMethods.generateToken({
+          phoneNumber: safeBody.phoneNumber
+        })
+      };
     } catch (ex) {
       if (ex.code === 11000) return { error: { ...ex, ...DUPLICATE_DATA } };
       return {

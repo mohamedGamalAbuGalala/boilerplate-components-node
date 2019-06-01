@@ -55,6 +55,13 @@ module.exports = ({ body, file }) => {
     email: {
       value: body.email,
       rules: new Builder().isEmail('invalid').value
+    },
+    password: {
+      value: body.password,
+      rules: new Builder()
+        .required('blank')
+        .minLength(4, 'too_short')
+        .maxLength(50, 'too_long').value
     }
   };
 

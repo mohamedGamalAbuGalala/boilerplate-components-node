@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 const controller = require('./UserController');
-const { RegisterValidator } = require('./validations');
+const { RegisterValidator, LoginValidator } = require('./validations');
 
 const validate = require('../../middlewares/validateMiddleware');
 
@@ -15,5 +15,9 @@ router.post(
   [uploadImages().single('avatar'), validate(RegisterValidator)],
   controller.register
 );
+
+// @route   POST api/user/login
+// !access anonymous
+router.post('/login', validate(LoginValidator), controller.login);
 
 module.exports = router;

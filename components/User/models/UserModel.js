@@ -1,3 +1,5 @@
+const bcrypt = require('bcryptjs');
+
 const DbModel = require('../UserScheme');
 
 class UserModel {
@@ -12,6 +14,10 @@ class UserModel {
   static addOne(body) {
     const dbInstance = new DbModel(body);
     return dbInstance.save();
+  }
+
+  static validatePassword(candidatePassword, currentPassword) {
+    return bcrypt.compareSync(candidatePassword, currentPassword);
   }
 }
 
