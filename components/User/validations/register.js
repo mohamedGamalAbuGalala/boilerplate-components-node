@@ -11,15 +11,15 @@ module.exports = ({ body, file }) => {
       value: body.firstName,
       rules: new Builder()
         .required('blank')
-        .minLength(2, 'first name must be at least 2 characters')
-        .maxLength(200, 'first name must be at max 200 characters').value
+        .minLength(2, 'too_short')
+        .maxLength(200, 'too_long').value
     },
     lastName: {
       value: body.lastName,
       rules: new Builder()
         .required('blank')
-        .minLength(2, 'last name must be at least 2 characters')
-        .maxLength(200, 'last name must be at max 200 characters').value
+        .minLength(2, 'too_short')
+        .maxLength(200, 'too_long').value
     },
     countryCode: {
       value: body.countryCode,
