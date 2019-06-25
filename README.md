@@ -14,4 +14,4 @@
 4. To run the app execute `npm start`
 5. To run test execute `npm test`
 
-[Here](https://documenter.getpostman.com/view/792095/S1TVYdkD?version=latest) is the API documentation for this app
+[Here](https://documenter.getpostman.com/view/792095/S1a4WmKQ?version=latest) is the API documentation for this app
